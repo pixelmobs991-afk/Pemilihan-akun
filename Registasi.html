@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Form ke Excel</title>
+</head>
+<body>
+  <form id="regForm">
+    Nama: <input type="text" name="nama"><br>
+    Email: <input type="email" name="email"><br>
+    <button type="button" onclick="exportToExcel()">Simpan ke Excel</button>
+  </form>
+
+  <script>
+    function exportToExcel() {
+      const form = document.getElementById("regForm");
+      const nama = form["nama"].value || "Kosong";
+      const email = form["email"].value || "Kosong";
+
+      // HEADER: kolom pertama kali
+      let csv = "Nama,Email\n";
+
+      // BARIS DATA: isi dari form
+      csv += `"${nama}","${email}"\n`;
+
+      // Buat file CSV
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "registrasi.csv"; // file akan diunduh sebagai registrasi.csv
+      a.click();
+
+      // Opsional: bersihkan form setelah disimpan
+      form.reset();
+    }
+  </script>
+</body>
+</html>
